@@ -204,16 +204,16 @@ for p in [qlic, qhome, '.']:
     if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
       with open('/sys/devices/virtual/dmi/id/product_name') as file:
         product_name = file.read()
-        if product_name == 'Google Compute Engine':
-          print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
-          sys.exit(1)
+      if product_name == 'Google Compute Engine':
+        print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
+        sys.exit(1)
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
     if os.path.isfile('/sys/hypervisor/uuid'):
       with open('/sys/hypervisor/uuid') as file:
         uuid = file.read()
-        if uuid[0:3] == 'ec2':
-          print('EC2 detected, please refer to https://code.kx.com/q/cloud/aws/', file=sys.stderr)
-          sys.exit(1)
+      if uuid[0:3] == 'ec2':
+        print('EC2 detected, please refer to https://code.kx.com/q/cloud/aws/', file=sys.stderr)
+        sys.exit(1)
     break
 else:
   fetch_options()
