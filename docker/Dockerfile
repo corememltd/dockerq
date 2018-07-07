@@ -2,6 +2,8 @@ FROM debian:9
 
 ARG VCS_REF=dev
 ARG BUILD_DATE=dev
+
+ARG L64_URL=http://dls.kx.com/253h1j3s2941/download/l64.zip
 ARG L64_SHA256=1439065d5baa0f7d152236733beea20745feb21a43cda62c33591db4fe7a40c5
 
 LABEL	org.label-schema.schema-version="1.0" \
@@ -36,7 +38,7 @@ RUN apt-get update \
 ENV QHOME=/opt/kx/q
 
 RUN mkdir -p $QHOME
-RUN curl -f -o /tmp/l64.zip -L http://dls.kx.com/253h1j3s2941/download/l64.zip \
+RUN curl -f -o /tmp/l64.zip -L $L64_URL \
 	&& [ "$L64_SHA256" = "$(sha256sum /tmp/l64.zip | cut -b1-64)" ] \
 	&& unzip -d $QHOME /tmp/l64.zip \
 	&& rm /tmp/l64.zip
