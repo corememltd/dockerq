@@ -1,6 +1,6 @@
 Standalone q Docker Container.
 
-This project creates a Docker container that provides a [barebones kdb+/`q`](https://kx.com/why-kx/) which aims to support many use cases and environments.
+This project creates a Docker container that provides a minimal [kdb+/`q`](https://kx.com/why-kx/) which aims to support many use cases and environments.
 
 # Related Links
 
