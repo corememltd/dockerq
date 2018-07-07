@@ -4,7 +4,7 @@ users:
 - name: kx
   groups: docker
   system: true
-  home: /dev/null
+  homedir: /dev/null
   shell: /bin/false
   inactive: true
 
