@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -eu
+
+# we do this contortion incase we need to pull in a login profile (eg. embedPy/conda)
+if ! test -x "$1"; then
+	SH=$(which "$1")
+	shift
+	set -- $SH "$@"
+fi
+if [ $# -eq 1 ] && grep -q -e "^$1\$" /etc/shells; then
+	SH=$1
+	shift
+	set -- $SH -l "$@"
+else
+	set -- /bin/sh -l -c 'exec "$@"' -- "$@"
+fi
+
+USERNAME=${KDB_USERNAME:-kx}
+getent passwd $USERNAME >/dev/null || useradd -s /bin/bash -U -m $USERNAME
+HOME=$(getent passwd $USERNAME | cut -d: -f6)
+cd $HOME
+export QLIC=$HOME
+
+if grep -q '^Google Compute Engine$' /sys/devices/virtual/dmi/id/product_name; then
+	METADATA=http://metadata.google.internal/computeMetadata/v1/project/attributes
+	[ -z "${Q_INIT:-}" ] \
+		|| Q_INIT=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/Q_INIT") \
+		|| unset Q_INIT
+	[ -z "${QLIC_KC:-}" ] \
+		|| QLIC_KC=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/QLIC_KC") \
+		|| unset QLIC_KC
+	[ -z "${QLIC_K4:-}" ] \
+		|| QLIC_K4=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/QLIC_K4") \
+		|| unset QLIC_K4
+fi
+
+if [ "${Q_INIT:-}" ]; then
+	printf "$Q_INIT" | base64 -d 2>/dev/null > /tmp/q_init \
+		|| { echo Q_INIT not base64 encoded >&2; exit 1; }
+	tar -C $HOME -xf /tmp/q_init 2>/dev/null \
+		|| unzip -q -d $HOME /tmp/q_init 2>/dev/null \
+		|| { echo unable to extract Q_INIT >&2; exit 1; }
+	rm /tmp/q_init
+fi
+
+chpst -u $USERNAME env ${QLIC_KC:+QLIC_KC=$QLIC_KC} ${QLIC_K4:+QLIC_K4=$QLIC_K4} python /opt/kx/kc.lic.py
+
+exec chpst -u $USERNAME "$@"
