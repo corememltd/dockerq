@@ -1,0 +1,31 @@
+#cloud-config
+
+users:
+- name: kx
+  groups: docker
+  system: true
+  home: /dev/null
+  shell: /bin/false
+  inactive: true
+
+write_files:
+- path: /etc/systemd/system/dockerq.service
+  permissions: 0644
+  owner: root
+  content: |
+    [Unit]
+    Description=Start Kx dockerq
+    Wants=gcr-online.target
+    After=gcr-online.target
+
+    [Service]
+    User=kx
+    ExecPreStart=/usr/bin/docker pull kxsys/dockerq
+    ExecStart=/usr/bin/docker run --rm --log-driver=gcplogs --name dockerq kxsys/dockerq
+    ExecStop=/usr/bin/docker stop dockerq
+    Restart=always
+    TimeoutSec=60s
+
+runcmd:
+- systemctl daemon-reload
+- systemctl start dockerq.service

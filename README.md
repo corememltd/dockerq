@@ -17,9 +17,19 @@ A Docker hosting environment is required, the following situations are described
 
     docker pull kxsys/dockerq
 
-## [Google Cloud Engine](https://cloud.google.com/compute/docs/containers/deploying-containers)
+## Google Cloud Engine
 
-...
+**N.B.** on-demand is not permitted for use on a third party cloud provider's computer as per the [license agreement](https://ondemand.kx.com/)
+
+An example of [starting a Docker container on a GCE instance](https://cloud.google.com/compute/docs/containers/deploying-containers) is as follows:
+
+    gcloud compute --project=MYPROJECT instances create dockerq \
+    	--zone=europe-west1-b --machine-type=f1-micro \
+    	--metadata-from-file=user-data=gce.metadata.user-data \
+    	--metadata=QLIC_K4=$(openssl base64 -e -A -in k4.lic) \
+    	--image=family/cos-stable --image-project=cos-cloud
+
+The metadata can also be stored in the project rather than at the instance level.
 
 # Usage
 
