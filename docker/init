@@ -16,24 +16,31 @@ else
 	set -- /bin/sh -l -c 'exec "$@"' -- "$@"
 fi
 
-USERNAME=${KDB_USERNAME:-kx}
+if grep -q '^Google Compute Engine$' /sys/devices/virtual/dmi/id/product_name; then
+	METADATA=http://metadata.google.internal/computeMetadata/v1
+	[ "${Q_INIT:-}" ] \
+		|| Q_INIT=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/instance/attributes/Q_INIT") \
+		|| Q_INIT=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/project/attributes/Q_INIT") \
+		|| unset Q_INIT
+	[ "${Q_USER:-}" ] \
+		|| Q_USER=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/instance/attributes/Q_USER") \
+		|| Q_USER=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/project/attributes/Q_USER") \
+		|| unset Q_USER
+	[ "${QLIC_KC:-}" ] \
+		|| QLIC_KC=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/instance/attributes/QLIC_KC") \
+		|| QLIC_KC=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/project/attributes/QLIC_KC") \
+		|| unset QLIC_KC
+	[ "${QLIC_K4:-}" ] \
+		|| QLIC_K4=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/instance/attributes/QLIC_K4") \
+		|| QLIC_K4=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/project/attributes/QLIC_K4") \
+		|| unset QLIC_K4
+fi
+
+USERNAME=${Q_USER:-kx}
 getent passwd $USERNAME >/dev/null || useradd -s /bin/bash -U -m $USERNAME
 HOME=$(getent passwd $USERNAME | cut -d: -f6)
 cd $HOME
 export QLIC=$HOME
-
-if grep -q '^Google Compute Engine$' /sys/devices/virtual/dmi/id/product_name; then
-	METADATA=http://metadata.google.internal/computeMetadata/v1/project/attributes
-	[ -z "${Q_INIT:-}" ] \
-		|| Q_INIT=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/Q_INIT") \
-		|| unset Q_INIT
-	[ -z "${QLIC_KC:-}" ] \
-		|| QLIC_KC=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/QLIC_KC") \
-		|| unset QLIC_KC
-	[ -z "${QLIC_K4:-}" ] \
-		|| QLIC_K4=$(curl -s -f -H 'Metadata-Flavor: Google' "$METADATA/QLIC_K4") \
-		|| unset QLIC_K4
-fi
 
 if [ "${Q_INIT:-}" ]; then
 	printf "$Q_INIT" | base64 -d 2>/dev/null > /tmp/q_init \

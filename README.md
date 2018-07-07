@@ -70,11 +70,12 @@ This lets you invoke `q` using:
 
 The following is supported:
 
- * **`KDB_USERNAME` (default: `kx`):** username inside the container in which to run `q`
- * **`KDB_HOSTNAME` (default: inherits from host):** hostname inside the container to use
-    * only makes sense for use via cloud metadata
-    * for non-metadata cases, add `-h <hostname>` as a parameter to `docker run ...`
+ * **`Q_USER` (default: `kx`):** username inside the container in which to run `q`
  * **`QLIC_K4`:** base64 encoded contents of your `k4.lic` file
+
+To amend the hostname of the container, you should use the `h` parameter as follows:
+
+    docker run --rm -it -h myhostname ...
 
 # Build
 
@@ -84,12 +85,12 @@ You will need [Docker installed](https://www.docker.com/community-edition) on yo
 
 Check out a copy of the project with:
 
-    git clone https://github.com/KxSystems/q.git
+    git clone https://github.com/KxSystems/dockerq.git
 
 To build locally the project you run:
 
-    docker build -t q -f docker/Dockerfile .
+    docker build -t dockerq -f docker/Dockerfile .
 
 Once built, you should have a local `q` image, you can run the following to use it:
 
-    docker run --rm -it q
+    docker run --rm -it dockerq
