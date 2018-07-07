@@ -71,6 +71,8 @@ The following is supported:
 
  * **`KDB_USERNAME` (default: `kx`):** username inside the container in which to run `q`
  * **`KDB_HOSTNAME` (default: inherits from host):** hostname inside the container to use
+    * only makes sense for use via cloud metadata
+    * for non-metadata cases, add `-h <hostname>` as a parameter to `docker run ...`
  * **`QLIC_K4`:** base64 encoded contents of your `k4.lic` file
 
 # Build
