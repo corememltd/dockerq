@@ -47,11 +47,11 @@ You can use [environment variables](https://docs.docker.com/engine/reference/run
 
 If your project code lives in the directory `mycode`, this lets you invoke `q` using:
 
-    docker run -it --rm -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) kxsys/q
+    docker run --rm -it -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) kxsys/q
 
 Alternatively, if your project code lives in a ZIP file called `mycode.zip`:
 
-    docker run -it --rm -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) kxsys/q
+    docker run --rm -it -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) kxsys/q
 
 ### On-demand License
 
@@ -63,7 +63,7 @@ The following is supported:
 
 This lets you invoke `q` using:
 
-    docker run -it --rm -e QLIC_KC=$(openssl base64 -e -A -in "$QHOME/kc.lic") kxsys/q
+    docker run --rm -it -e QLIC_KC=$(openssl base64 -e -A -in "$QHOME/kc.lic") kxsys/q
 
 ### Commercial License
 
@@ -91,4 +91,4 @@ To build locally the project you run:
 
 Once built, you should have a local `q` image, you can run the following to use it:
 
-    docker run -it --rm q
+    docker run --rm -it q
