@@ -46,11 +46,11 @@ You can use [environment variables](https://docs.docker.com/engine/reference/run
 
 If your project code lives in the directory `mycode`, this lets you invoke `q` using:
 
-    docker run -it --rm -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) q
+    docker run -it --rm -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) kxsys/q
 
 Alternatively, if your project code lives in a ZIP file called `mycode.zip`:
 
-    docker run -it --rm -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) q
+    docker run -it --rm -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) kxsys/q
 
 ### On-demand License
 
