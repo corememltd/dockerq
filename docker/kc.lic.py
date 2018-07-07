@@ -206,12 +206,19 @@ else:
     fetch_options()
     license()
 
-if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
-	with open('/sys/devices/virtual/dmi/id/product_name') as file:
-		product_name = file.read()
-		if product_name == 'Google Compute Engine' and os.path.isfile(os.path.join(p, 'kc.lic')):
-			print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
-			sys.exit(1)
+if os.path.isfile(os.path.join(p, 'kc.lic')):
+	if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
+		with open('/sys/devices/virtual/dmi/id/product_name') as file:
+			product_name = file.read()
+			if product_name == 'Google Compute Engine':
+				print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
+				sys.exit(1)
+	if os.path.isfile('/sys/hypervisor/uuid'):
+		with open('/sys/hypervisor/uuid') as file:
+			uuid = file.read()
+			if uuid[0:3] == 'ec2':
+				print('EC2 detected, please refer to https://code.kx.com/q/cloud/aws/', file=sys.stderr)
+				sys.exit(1)
 
 if os.path.basename(sys.argv[0].lower()) == qbin:
   retcode = os.execv(qpath, [ qbin ] + args)
