@@ -71,7 +71,7 @@ Alternatively, if your project code lives in a ZIP file called `mycode.zip`:
 
 ### On-demand License
 
-**N.B.** not permitted for use on a third party cloud provider's computer as per the [license agreement](https://ondemand.kx.com/)
+**N.B.** on-demand is not permitted for use on a third party cloud provider's computer as per the [license agreement](https://ondemand.kx.com/)
 
 The following is supported:
 
