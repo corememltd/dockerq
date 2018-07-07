@@ -15,7 +15,7 @@ A Docker hosting environment is required, the following situations are described
 
 ## [Community Edition](https://www.docker.com/community-edition)
 
-    docker pull kxsys/q
+    docker pull kxsys/dockerq
 
 ## [Google Cloud Engine](https://cloud.google.com/compute/docs/containers/deploying-containers)
 
@@ -25,15 +25,15 @@ A Docker hosting environment is required, the following situations are described
 
 You should be able to run:
 
-    docker run --rm -it kxsys/q
+    docker run --rm -it kxsys/dockerq
 
 You can drop straight into `bash` with:
 
-    docker run --rm -it kxsys/q bash
+    docker run --rm -it kxsys/dockerq bash
 
 Lastly you can pipe your program in (or look to [`Q_INIT`](#headless) below):
 
-    $ echo 3+3 | docker run --rm -i kxsys/q q -q
+    $ echo 3+3 | docker run --rm -i kxsys/dockerq q -q
     6
 
 ## Headless
@@ -48,11 +48,11 @@ You can use [environment variables](https://docs.docker.com/engine/reference/run
 
 If your project code lives in the directory `mycode`, this lets you invoke `q` using:
 
-    docker run --rm -it -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) kxsys/q
+    docker run --rm -it -e Q_INIT=$(tar -C mycode -c . | gzip -9 | openssl base64 -e -A) kxsys/dockerq
 
 Alternatively, if your project code lives in a ZIP file called `mycode.zip`:
 
-    docker run --rm -it -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) kxsys/q
+    docker run --rm -it -e Q_INIT=$(openssl base64 -e -A -in mycode.zip) kxsys/dockerq
 
 ### On-demand License
 
@@ -64,7 +64,7 @@ The following is supported:
 
 This lets you invoke `q` using:
 
-    docker run --rm -it -e QLIC_KC=$(openssl base64 -e -A -in "$QHOME/kc.lic") kxsys/q
+    docker run --rm -it -e QLIC_KC=$(openssl base64 -e -A -in "$QHOME/kc.lic") kxsys/dockerq
 
 ### Commercial License
 
