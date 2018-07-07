@@ -9,6 +9,10 @@ This project creates a Docker container that provides a minimal [kdb+/`q`](https
      * [Get going with kdb+](https://code.kx.com)
  * [Docker](https://docker.com)
 
+# Issues
+
+ * Until this project is moved to `KxSystems`, you need to replace `kxsys/dockerq` with `coremem/dockerq`, including in the `gce.metadata.user-data` file
+
 # Pre-flight
 
 A Docker hosting environment is required, the following situations are described.
@@ -48,7 +52,7 @@ Lastly you can pipe your program in (or look to [`Q_INIT`](#headless) below):
 
 ## Headless
 
-You can use [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables) (or [metadata for GCE](https://cloud.google.com/compute/docs/storing-retrieving-metadata)) to handle any interactive component of starting the container.
+You can use [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables) (or [instance or project level metadata for GCE](https://cloud.google.com/compute/docs/storing-retrieving-metadata)) to handle any interactive component of starting the container.
 
  * **`Q_INIT`:** [base64 encoded](https://en.wikipedia.org/wiki/Base64) [`tar`](https://en.wikipedia.org/wiki/Tar_(computing)) ([`gzip`](https://en.wikipedia.org/wiki/Gzip) supported) or [`zip`](https://en.wikipedia.org/wiki/Zip_(file_format)) file that will be extracted to `HOME` and will [automatically begin executing `q.q` if present](https://www.kdbfaq.com/how-can-i-have-kdb-automatically-load-q-code-at-startup-in-every-session/)
      * as inside the container [`QLIC=$HOME`](https://code.kx.com/q/tutorials/licensing/#keeping-the-license-key-file-elsewhere) you may include your `kc.lic` (or `k4.lic`) file
