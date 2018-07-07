@@ -201,6 +201,7 @@ for p in [qlic, qhome, '.']:
   if os.path.isfile(os.path.join(p, 'k4.lic')):
     break
   if os.path.isfile(os.path.join(p, 'kc.lic')):
+    # license guards
     if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
       with open('/sys/devices/virtual/dmi/id/product_name') as file:
         product_name = file.read()
