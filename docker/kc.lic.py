@@ -131,7 +131,7 @@ This is the only Agreement between End User and Kx relating to the Kdb+ On Deman
 
 def prompt(prompt):
   if not sys.stdin.isatty():
-    print('Headless detected, please refer to https://github.com/KxSystems/q#headless', file=sys.stderr)
+    print('Headless detected, please refer to https://github.com/KxSystems/dockerq#headless', file=sys.stderr)
     sys.exit(1)
   return input(prompt)
 
