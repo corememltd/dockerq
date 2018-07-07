@@ -87,7 +87,7 @@ The following is supported:
  * **`Q_USER` (default: `kx`):** username inside the container in which to run `q`
  * **`QLIC_K4`:** base64 encoded contents of your `k4.lic` file
 
-To amend the hostname of the container, you should use the `h` parameter as follows:
+To amend the hostname of the container, you should use the [`h` parameter](https://docs.docker.com/engine/reference/run/#uts-settings---uts) as follows:
 
     docker run --rm -it -h myhostname ...
 
