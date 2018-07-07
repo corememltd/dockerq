@@ -9,7 +9,7 @@ This project creates a Docker container that provides a minimal [kdb+/`q`](https
      * [Get going with kdb+](https://code.kx.com)
  * [Docker](https://docker.com)
 
-# Preflight
+# Pre-flight
 
 A Docker hosting environment is required, the following situations are described.
 
@@ -38,10 +38,10 @@ Lastly you can pipe your program in (or look to `Q_INIT` below):
 
 ## Headless
 
-You can use [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables) (or [metadata for GCE](https://cloud.google.com/compute/docs/storing-retrieving-metadata)) to handle any interactive componment of starting the container.
+You can use [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables) (or [metadata for GCE](https://cloud.google.com/compute/docs/storing-retrieving-metadata)) to handle any interactive component of starting the container.
 
  * **`Q_INIT`:** [base64 encoded](https://en.wikipedia.org/wiki/Base64) [`tar`](https://en.wikipedia.org/wiki/Tar_(computing)) ([`gzip`](https://en.wikipedia.org/wiki/Gzip) supported) or [`zip`](https://en.wikipedia.org/wiki/Zip_(file_format)) file that will be extracted to `HOME` and will [automatically begin executing `q.q` if present](https://www.kdbfaq.com/how-can-i-have-kdb-automatically-load-q-code-at-startup-in-every-session/)
-     * as inside the container `QLIC=$HOME` you may include your `kc.lic` (or `k4.lic`) file; for cloud deployments it is recommended to use [`QLIC_K4`](#commerical-license) so to decouple the licensing from your code
+     * as inside the container `QLIC=$HOME` you may include your `kc.lic` (or `k4.lic`) file; for cloud deployments it is recommended to use [`QLIC_K4`](#commercial-license) so to decouple the licensing from your code
      * your upper limit for your `Q_INIT` is something short of the output from `getconf ARG_MAX` (inclusive of the base64 encoding overhead)
      * your upper limit for your `Q_INIT` as cloud metadata is limited by [GCE to the maximum size of 256kB](https://cloud.google.com/compute/docs/storing-retrieving-metadata#custom_metadata_size_limitations)
 
@@ -77,7 +77,7 @@ The following is supported:
 
 # Build
 
-The instructions below are for building your own Docker image. A prebuilt Docker image is available on Docker Cloud, if you only want to run the `q` image then you should read ignore this section and follow the preflight and usage sections above on how to do this.
+The instructions below are for building your own Docker image. A pre-built Docker image is available on Docker Cloud, if you only want to run the `q` image then you should read ignore this section and follow the [pre-flight](#pre-flight) and [usage](#usage) sections above on how to do this.
 
 You will need [Docker installed](https://www.docker.com/community-edition) on your workstation; make sure it is a recent version.
 
