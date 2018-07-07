@@ -41,7 +41,7 @@ Lastly you can pipe your program in (or look to [`Q_INIT`](#headless) below):
 You can use [environment variables](https://docs.docker.com/engine/reference/run/#env-environment-variables) (or [metadata for GCE](https://cloud.google.com/compute/docs/storing-retrieving-metadata)) to handle any interactive component of starting the container.
 
  * **`Q_INIT`:** [base64 encoded](https://en.wikipedia.org/wiki/Base64) [`tar`](https://en.wikipedia.org/wiki/Tar_(computing)) ([`gzip`](https://en.wikipedia.org/wiki/Gzip) supported) or [`zip`](https://en.wikipedia.org/wiki/Zip_(file_format)) file that will be extracted to `HOME` and will [automatically begin executing `q.q` if present](https://www.kdbfaq.com/how-can-i-have-kdb-automatically-load-q-code-at-startup-in-every-session/)
-     * as inside the container `[QLIC](https://code.kx.com/q/tutorials/licensing/#keeping-the-license-key-file-elsewhere)=$HOME` you may include your `kc.lic` (or `k4.lic`) file; it is recommended to use [`QLIC_KC`](#on-demand-license) or [`QLIC_K4`](#commercial-license) so to decouple the licensing from your codebase
+     * as inside the container [`QLIC=$HOME`](https://code.kx.com/q/tutorials/licensing/#keeping-the-license-key-file-elsewhere) you may include your `kc.lic` (or `k4.lic`) file; it is recommended to use [`QLIC_KC`](#on-demand-license) or [`QLIC_K4`](#commercial-license) so to decouple the licensing from your codebase
      * your upper limit for your `Q_INIT` is something short of the output from `getconf ARG_MAX` (inclusive of the base64 encoding overhead)
      * your upper limit for your `Q_INIT` as cloud metadata is limited by [GCE to the maximum size of 256kB](https://cloud.google.com/compute/docs/storing-retrieving-metadata#custom_metadata_size_limitations)
 
