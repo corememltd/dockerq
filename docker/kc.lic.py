@@ -41,9 +41,9 @@ if not plat in qarch:
   sys.exit(2)
 
 if plat == 'Windows':
-	qbin = 'q.exe'
+  qbin = 'q.exe'
 else:
-	qbin = 'q'
+  qbin = 'q'
 qpath = os.path.join(qhome, qarch[plat], qbin)
 if not os.path.isfile(qpath):
   print("missing q binary at '{}'".format(qpath), file=sys.stderr)
@@ -201,25 +201,23 @@ else:
     if os.path.isfile(os.path.join(p, 'k4.lic')):
       break
     if os.path.isfile(os.path.join(p, 'kc.lic')):
+      if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
+        with open('/sys/devices/virtual/dmi/id/product_name') as file:
+          product_name = file.read()
+          if product_name == 'Google Compute Engine':
+            print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
+            sys.exit(1)
+      # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
+      if os.path.isfile('/sys/hypervisor/uuid'):
+        with open('/sys/hypervisor/uuid') as file:
+          uuid = file.read()
+          if uuid[0:3] == 'ec2':
+            print('EC2 detected, please refer to https://code.kx.com/q/cloud/aws/', file=sys.stderr)
+            sys.exit(1)
       break
   else:
     fetch_options()
     license()
-
-if os.path.isfile(os.path.join(p, 'kc.lic')):
-	if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
-		with open('/sys/devices/virtual/dmi/id/product_name') as file:
-			product_name = file.read()
-			if product_name == 'Google Compute Engine':
-				print('GCE detected, please refer to https://code.kx.com/q/cloud/gcl/', file=sys.stderr)
-				sys.exit(1)
-	# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
-	if os.path.isfile('/sys/hypervisor/uuid'):
-		with open('/sys/hypervisor/uuid') as file:
-			uuid = file.read()
-			if uuid[0:3] == 'ec2':
-				print('EC2 detected, please refer to https://code.kx.com/q/cloud/aws/', file=sys.stderr)
-				sys.exit(1)
 
 if os.path.basename(sys.argv[0].lower()) == qbin:
   retcode = os.execv(qpath, [ qbin ] + args)
