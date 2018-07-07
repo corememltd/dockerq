@@ -31,7 +31,7 @@ You can drop straight into `bash` with:
 
     docker run --rm -it kxsys/q bash
 
-Lastly you can pipe your program in (or look to `Q_INIT` below):
+Lastly you can pipe your program in (or look to [`Q_INIT`](#headless) below):
 
     $ echo 3+3 | docker run --rm -i kxsys/q q -q
     6
