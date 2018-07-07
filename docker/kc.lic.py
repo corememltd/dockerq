@@ -129,36 +129,30 @@ This is the only Agreement between End User and Kx relating to the Kdb+ On Deman
 ----- END LICENSE AGREEMENT -----
 ''')
 
-def prompt(prompt):
-  if not sys.stdin.isatty():
-    print('Headless detected, please refer to https://github.com/KxSystems/dockerq#headless', file=sys.stderr)
-    sys.exit(1)
-  return input(prompt)
-
 def fetch_options():
   global options
 
   if not options.agree:
     license_agreement()
-    options.agree = prompt('I agree to the terms of the license agreement for kdb+ on demand Personal Edition (N/y): ')
+    options.agree = input('I agree to the terms of the license agreement for kdb+ on demand Personal Edition (N/y): ')
     print()
   if options.agree.lower()[0:1] != 'y' and options.agree[0:1] != '1':
     print('not agreed to license, aborting', file=sys.stderr)
     sys.exit(1)
 
   if not options.company and not options.name and not options.email:
-    options.company = prompt('If applicable please provide your company name (press enter for none): ')
+    options.company = input('If applicable please provide your company name (press enter for none): ')
     if len(options.company) == 0:
       options.company = None
 
   while not options.name:
-    options.name = prompt('Please provide your name: ')
+    options.name = input('Please provide your name: ')
     if len(options.name) == 0:
       print('name cannot be zero length', file=sys.stderr)
       options.name = None
 
   while not options.email:
-    options.email = prompt('Please provide your email (requires validation): ')
+    options.email = input('Please provide your email (requires validation): ')
     if len(options.email) == 0:
       print('email cannot be zero length', file=sys.stderr)
       options.email = None
@@ -220,6 +214,9 @@ for p in [qlic, qhome, '.']:
     license_ondemand_guard()
     break
 else:
+  if not sys.stdin.isatty():
+    print('Headless detected, please refer to https://github.com/KxSystems/dockerq#headless', file=sys.stderr)
+    sys.exit(1)
   license_ondemand_guard()
   fetch_options()
   license()
