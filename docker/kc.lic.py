@@ -211,13 +211,13 @@ for p in [qlic, qhome, '.']:
   if os.path.isfile(os.path.join(p, 'k4.lic')):
     break
   if os.path.isfile(os.path.join(p, 'kc.lic')):
-    license_ondemand_guard()
+    #license_ondemand_guard()
     break
 else:
   if not sys.stdin.isatty():
     print('Headless detected, please refer to https://github.com/KxSystems/dockerq#headless', file=sys.stderr)
     sys.exit(1)
-  license_ondemand_guard()
+  #license_ondemand_guard()
   fetch_options()
   license()
 
